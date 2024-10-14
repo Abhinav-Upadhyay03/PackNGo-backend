@@ -3,6 +3,7 @@ import express from 'express';
 import connectDB from './db/index.js';
 import signup from './routes/signup.js'; // Use ES module import
 import login from './routes/login.js'
+import vehicles from './routes/vehicles.js'
 dotenv.config({
   path: './env',
 });
@@ -21,6 +22,7 @@ app.get('/', (req, res) => {
 
 app.use('/api', signup);
 app.use('/api', login);
+app.use('/api', vehicles);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
