@@ -1,4 +1,4 @@
-import mongoose, {Schema} from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const userSchema = new Schema({
     fullName: {
@@ -12,7 +12,7 @@ const userSchema = new Schema({
         unique: true,
         lowercase: true,
     },
-    password:{
+    password: {
         type: String,
         required: [true, 'Password is required'],
     },
@@ -20,12 +20,22 @@ const userSchema = new Schema({
         type: String,
         default: 'user',
         enum: ['user', 'driver', 'admin'],
+    },
+    vehicle: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Vehicle',
+        required: function() {
+            return this.role === 'driver';
+        }
     }
-    // refreshToken: {
-    //     type: String,
-    //     default: ''
-    // }
+}, { timestamps: true });
 
-},{timestamps: true})
+// Pre-save hook to ensure vehicle is set only if the role is 'driver'
+userSchema.pre('save', function(next) {
+    if (this.role === 'driver' && !this.vehicle) {
+        return next(new Error('Vehicle is required for drivers.'));
+    }
+    next();
+});
 
-export const User = mongoose.model('User', userSchema)
+export const User = mongoose.model('User', userSchema);

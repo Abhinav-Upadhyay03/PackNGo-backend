@@ -3,13 +3,12 @@ import express from 'express';
 import connectDB from './db/index.js';
 import signup from './routes/signup.js'; // Use ES module import
 import login from './routes/login.js'
-
 dotenv.config({
   path: './env',
 });
 
 connectDB();
-
+ 
 const app = express();
 const port = process.env.PORT || 4000;
 

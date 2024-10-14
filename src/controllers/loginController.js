@@ -13,5 +13,5 @@ export const loginUser = async (req, res) => {
         return res.status(401).json({success: false, message: `${password}-${user.password}`});
     }
     
-    res.json({success: true, message: 'Login route'});
+    res.json({success: true, user: user, message: 'Login route'});
 }
