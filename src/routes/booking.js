@@ -1,15 +1,14 @@
 import express from 'express';
-import { getBookingByDriverID, getJobsCompleted, registerBooking } from '../controllers/bookingController.js';
+import { getBookingByDriverID, getJobsCompleted, putBookingStatus, registerBooking } from '../controllers/bookingController.js';
 
 const router = express.Router();
 
-// Route to register a booking and fetch completed jobs
 router.route('/booking')
   .post(registerBooking) 
-  .get(getJobsCompleted); 
+  .get(getJobsCompleted)
+  .put(putBookingStatus); 
 
-// Route to get bookings by driver ID
 router.route('/bookings')
-  .get(getBookingByDriverID); // Get bookings by driver ID
+  .get(getBookingByDriverID);
 
 export default router;
