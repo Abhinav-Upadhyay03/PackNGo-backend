@@ -1,6 +1,9 @@
+import jwt from 'jsonwebtoken';
 import { Driver } from '../models/driver.models.js';
 import { User } from '../models/user.models.js';
 import { Vehicle } from '../models/vehicle.models.js';
+
+const JWT_SECRET = '6a3b2c4d5e6f7g8h9i0j1k2l3m4n5o6p';
 
 export const registerDriver = async (req, res) => {
     const { fullName, email, password, vehicleType } = req.body;
@@ -36,7 +39,10 @@ export const registerDriver = async (req, res) => {
         vehicle.driver = driver._id;
         await vehicle.save();
 
-        res.json({ success: true, driver: driver, vehicle: vehicle, message: 'Driver registered successfully.' });
+        // Generate a JWT token
+        const token = jwt.sign({ userId: driver._id, role: driver.role }, JWT_SECRET, { expiresIn: '1h' });
+
+        res.json({ success: true, driver: driver, vehicle: vehicle, token, message: 'Driver registered successfully.' });
     } catch (error) {
         console.error(error);
         res.status(400).json({ success: false, message: 'An error occurred during driver registration.', error });

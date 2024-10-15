@@ -6,6 +6,7 @@ import login from './routes/login.js'
 import vehicles from './routes/vehicles.js'
 import driver from './routes/driver.js'
 import autocomplete from './routes/autocomplete.js';
+import booking from './routes/booking.js';
 dotenv.config({
   path: './env',
 });
@@ -25,8 +26,9 @@ app.get('/', (req, res) => {
 app.use('/api', signup);
 app.use('/api', login);
 app.use('/api', vehicles);
-app.use('/api', driver)
-app.use('/api', autocomplete)
+app.use('/api', driver);
+app.use('/api', autocomplete);
+app.use('/api', booking);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
