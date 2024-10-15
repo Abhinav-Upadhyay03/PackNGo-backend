@@ -82,3 +82,33 @@ export const getDriverLatLngByDriverId = async (req, res) => {
         res.status(400).json({ success: false, message: 'An error occurred fetching driver location.', error });
     }
 }
+
+export const getDriverList = async (req, res) => {
+    try {
+        const drivers = await Driver.find();
+        res.json({ success: true, drivers });
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({ success: false, message: 'An error occurred fetching drivers.', error });
+    }
+}
+
+export const updateDriverAvailability = async (req, res) => {
+    const { driverId } = req.query;
+    const { available } = req.body;
+
+    try {
+        const driver = await Driver.findById(driverId);
+        if (!driver) {
+            return res.status(404).json({ success: false, message: 'Driver not found.' });
+        }
+
+        driver.available = available;
+        await driver.save();
+
+        res.json({ success: true, driver, message: 'Driver availability updated successfully.' });
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({ success: false, message: 'An error occurred updating driver availability.', error });
+    }
+}
