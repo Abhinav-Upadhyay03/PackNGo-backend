@@ -1,12 +1,9 @@
-import mongoose, {Schema} from "mongoose";
-const vehicleSchema = new Schema({
-    vehicleType: {
-        type: String,
-        required: true,
-        lowercase: true,
-        enum: ['small sized', 'medium sized', 'large sized'],
-    },
+import mongoose from 'mongoose';
 
-})
+const vehicleSchema = new mongoose.Schema({
+    vehicleType: { type: String, required: true },
+    driver: { type: mongoose.Schema.Types.ObjectId, ref: 'Driver' }, 
+    availability: { type: Boolean, default: true },  
+});
 
-export const Vehicle = mongoose.model('Vehicle', vehicleSchema)
+export const Vehicle = mongoose.model('Vehicle', vehicleSchema);
