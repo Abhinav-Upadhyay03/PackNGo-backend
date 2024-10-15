@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import { Driver } from '../models/driver.models.js';
 import { User } from '../models/user.models.js';
 import { Vehicle } from '../models/vehicle.models.js';
-
+import bcrypt from 'bcrypt';
 const JWT_SECRET = '6a3b2c4d5e6f7g8h9i0j1k2l3m4n5o6p';
 
 export const registerDriver = async (req, res) => {
@@ -26,7 +26,7 @@ export const registerDriver = async (req, res) => {
         const driver = new Driver({
             fullName,
             email,
-            password,
+            password: await bcrypt.hash(password, 10),
             role: 'driver',
             vehicle: vehicle,
             vehicleType,

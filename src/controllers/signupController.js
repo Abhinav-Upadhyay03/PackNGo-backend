@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { User } from '../models/user.models.js';
-
+import bcrypt from 'bcrypt';
 const JWT_SECRET = '6a3b2c4d5e6f7g8h9i0j1k2l3m4n5o6p'; 
 
 export const registerUser = async (req, res) => {
@@ -12,11 +12,12 @@ export const registerUser = async (req, res) => {
             return res.status(400).json({ success: false, message: 'Use the /driver route for drivers.' });
         }
 
+
         const user = new User({
-            fullName,
             email,
-            password,
-            role,  // This will always be 'user'
+            password: await bcrypt.hash(password, 10),
+            fullName,
+            role, 
         });
 
         await user.save();
