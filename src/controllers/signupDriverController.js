@@ -9,20 +9,15 @@ export const registerDriver = async (req, res) => {
     const { fullName, email, password, vehicleType } = req.body;
 
     try {
-        // Ensure vehicleType is provided for drivers
+
         if (!vehicleType) {
             return res.status(400).json({ success: false, message: 'Vehicle type is required for drivers.' });
         }
-
-        // Create the vehicle
         const vehicle = new Vehicle({
             vehicleType,
-            availability: true,  // Set the availability to true by default
+            availability: true,  
         });
-
-        await vehicle.save();
-
-        // Create the driver as a user with role 'driver'
+        await vehicle.save();        
         const driver = new Driver({
             fullName,
             email,
@@ -30,12 +25,12 @@ export const registerDriver = async (req, res) => {
             role: 'driver',
             vehicle: vehicle,
             vehicleType,
-            availability: true,  // Set driver's availability to true
+            availability: true,  
         });
 
         await driver.save();
 
-        // Update the vehicle to include the driver's ID
+        
         vehicle.driver = driver._id;
         await vehicle.save();
 
@@ -48,3 +43,42 @@ export const registerDriver = async (req, res) => {
         res.status(400).json({ success: false, message: 'An error occurred during driver registration.', error });
     }
 };
+export const updateDriverLatLng = async (req, res) => {
+    const { driverId } = req.query;
+    const { latitude, longitude } = req.body;
+
+    try {
+        if (!latitude || !longitude) {
+            return res.status(400).json({ success: false, message: 'Latitude, and longitude are required.' });
+        }
+        const driver = await Driver.findById(driverId);
+        if (!driver) {
+            return res.status(404).json({ success: false, message: 'Driver not found.' });
+        }
+
+        driver.latitude = latitude;
+        driver.longitude = longitude;
+        await driver.save();
+
+        res.json({ success: true, driver, message: 'Driver location updated successfully.' });
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({ success: false, message: 'An error occurred updating driver location.', error });
+    }
+}
+
+export const getDriverLatLngByDriverId = async (req, res) => {
+    const { driverId } = req.query;
+
+    try {
+        const driver = await Driver.findById(driverId);
+        if (!driver) {
+            return res.status(404).json({ success: false, message: 'Driver not found.' });
+        }
+
+        res.json({ success: true, driver });
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({ success: false, message: 'An error occurred fetching driver location.', error });
+    }
+}

@@ -1,8 +1,9 @@
 import express from 'express';
-import { registerDriver } from '../controllers/signupDriverController.js';
+import { getDriverLatLngByDriverId, registerDriver, updateDriverLatLng } from '../controllers/signupDriverController.js';
 
 const router = express.Router();
 
-router.post('/driver', registerDriver);
+
+router.route('/driver').post(registerDriver).put(updateDriverLatLng).get(getDriverLatLngByDriverId);
 
 export default router;

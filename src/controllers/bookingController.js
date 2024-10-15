@@ -1,6 +1,5 @@
 import { Booking } from '../models/booking.models.js'; 
 
-// Controller to register a booking
 export const registerBooking = async (req, res) => {
   const {
     userId,
@@ -12,7 +11,7 @@ export const registerBooking = async (req, res) => {
   } = req.body;
 
   try {
-    // Validate required fields
+    
     if (!userId || !driverId || !pickupLocation || !dropOffLocation || !vehicleType || !price) {
       return res.status(400).json({ 
         success: false, 
@@ -20,7 +19,6 @@ export const registerBooking = async (req, res) => {
       });
     }
 
-    // Create a new booking instance
     const newBooking = new Booking({
       userId,
       driverId,
@@ -30,10 +28,8 @@ export const registerBooking = async (req, res) => {
       price
     });
 
-    // Save the booking to the database
     await newBooking.save();
 
-    // Respond with the newly created booking
     return res.status(201).json({ 
       success: true, 
       booking: newBooking, 
@@ -49,7 +45,6 @@ export const registerBooking = async (req, res) => {
   }
 };
 
-// Controller to get all completed jobs
 export const getJobsCompleted = async (req, res) => {
   try {
     const bookings = await Booking.find({ status: 'completed' });
@@ -68,16 +63,10 @@ export const getJobsCompleted = async (req, res) => {
   }
 };
 
-// Controller to get bookings by driver ID
 export const getBookingByDriverID = async (req, res) => {
-  const { driverId } = req.query; // Destructure driverId from req.params
-
+  const { driverId } = req.query; 
   try {
-    
-  
     const bookings = await Booking.find({ driverId });
-
-    // Return response
     return res.status(200).json({ 
       success: true, 
       bookings 
