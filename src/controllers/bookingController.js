@@ -47,7 +47,7 @@ export const registerBooking = async (req, res) => {
 
 export const getJobsCompleted = async (req, res) => {
   try {
-    const bookings = await Booking.find({ status: 'completed' });
+    const bookings = await Booking.find({ status: 'Delivered' });
 
     return res.status(200).json({ 
       success: true, 
@@ -112,5 +112,14 @@ export const putBookingStatus = async (req, res) => {
       message: 'Server error. Please try again later.', 
       error: error.message || error 
     });
+  }
+}
+export const getAllBookings = async (req, res) => {
+  try {
+    const bookings = await Booking.find();
+    return res.status(200).json({ success: true, bookings });
+  } catch (error) {
+    console.error('Error fetching all bookings:', error);
+    return res.status(500).json({ success: false, message: 'Server error. Please try again later.', error: error.message || error });
   }
 }
