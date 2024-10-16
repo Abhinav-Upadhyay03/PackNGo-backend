@@ -8,18 +8,12 @@ export const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    console.log(email, password);
-    
     const user = await User.findOne({ email }) || await Driver.findOne({ email });
-    console.log(user);
-    
     if (!user) {
       return res.status(401).json({ error: "Authentication failed" });
     }
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
-        console.log("passwordMatch");
-        
       return res.status(401).json({ error: "Authentication failed" });
     }
     const token = jwt.sign({ userId: user._id }, JWT_SECRET, {

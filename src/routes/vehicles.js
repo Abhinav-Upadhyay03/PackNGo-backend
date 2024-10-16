@@ -4,7 +4,6 @@ import { getAvailableVehicles, putVehicleAvailability } from '../controllers/veh
 
 const router = express.Router();
 
-// Get all vehicles
 router.route('/vehicles').get(getAvailableVehicles).put(putVehicleAvailability);
 
 export default router;
