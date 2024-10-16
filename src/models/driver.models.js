@@ -11,6 +11,7 @@ const driverSchema = new Schema({
             required: true,
             lowercase: true,
             unique: true,
+            index: true,
         },
         password: {
             type: String,

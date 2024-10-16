@@ -14,11 +14,10 @@ dotenv.config({
 connectDB();
  
 const app = express();
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 8000;
 
 // Middleware to parse incoming JSON requests
 app.use(express.json());
-
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
