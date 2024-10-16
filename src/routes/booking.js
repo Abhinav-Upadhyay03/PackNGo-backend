@@ -1,5 +1,5 @@
 import express from 'express';
-import { getAllBookings, getBookingByDriverID, getJobsCompleted, putBookingStatus, registerBooking } from '../controllers/bookingController.js';
+import { getAllBookings, getBookingByDriverID, getBookingByUserId, getJobsCompleted, putBookingStatus, registerBooking } from '../controllers/bookingController.js';
 
 const router = express.Router();
 
@@ -12,6 +12,8 @@ router.route('/bookings')
   .get(getBookingByDriverID);
 
 router.route('/allBookings').get(getAllBookings);
+
+router.route('/bookingUser').get(getBookingByUserId);
   
 
 export default router;

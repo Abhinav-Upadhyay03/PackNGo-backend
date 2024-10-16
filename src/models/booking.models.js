@@ -25,8 +25,8 @@ const bookingSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['On the way to pickup', 'Goods Collected', 'Delivered', 'Cancelled'],
-        default: 'On the way to pickup'
+        enum: ['Pending','On the way to pickup', 'Goods Collected', 'Delivered', 'Cancelled'],
+        default: 'Pending'
     },
     price: {
         type: Number,

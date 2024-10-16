@@ -123,3 +123,14 @@ export const getAllBookings = async (req, res) => {
     return res.status(500).json({ success: false, message: 'Server error. Please try again later.', error: error.message || error });
   }
 }
+
+export const getBookingByUserId = async (req, res) => {
+  const { userId } = req.query;
+  try {
+    const bookings = await Booking.find({ userId });
+    return res.status(200).json({ success: true, bookings });
+  } catch (error) {
+    console.error(`Error fetching bookings for user ID ${userId}:`, error);
+    return res.status(500).json({ success: false, message: 'Server error. Please try again later.', error: error.message || error });
+  }
+}

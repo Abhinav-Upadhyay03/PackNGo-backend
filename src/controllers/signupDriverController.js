@@ -95,7 +95,7 @@ export const getDriverList = async (req, res) => {
 
 export const updateDriverAvailability = async (req, res) => {
     const { driverId } = req.query;
-    const { available } = req.body;
+    const { available, status } = req.body;
 
     try {
         const driver = await Driver.findById(driverId);
@@ -104,6 +104,7 @@ export const updateDriverAvailability = async (req, res) => {
         }
 
         driver.available = available;
+        driver.status = status;
         await driver.save();
 
         res.json({ success: true, driver, message: 'Driver availability updated successfully.' });
